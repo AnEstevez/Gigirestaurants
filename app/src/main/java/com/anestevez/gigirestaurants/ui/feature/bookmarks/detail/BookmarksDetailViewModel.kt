@@ -1,4 +1,4 @@
-package com.anestevez.gigirestaurants.ui.feature.search.detail
+package com.anestevez.gigirestaurants.ui.feature.bookmarks.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchDetailViewModel @Inject constructor(
+class BookmarksDetailViewModel @Inject constructor(
     stateHandle: SavedStateHandle,
     private val getRestaurantByIdUseCase: GetRestaurantByIdUseCase,
     private val toggleBookmarkUseCase: ToggleBookmarkUseCase,
@@ -22,7 +22,7 @@ class SearchDetailViewModel @Inject constructor(
 
     private val id = stateHandle.get<Int>(ID) ?: 0
 
-    var uiState = MutableStateFlow(SearchDetailUiState())
+    var uiState = MutableStateFlow(BookmarksDetailUiState())
         private set
 
     init {

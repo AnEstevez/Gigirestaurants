@@ -1,5 +1,6 @@
 package com.anestevez.gigirestaurants.core
 
+import com.anestevez.gigirestaurants.core.local.RestaurantEntity
 import com.anestevez.gigirestaurants.core.remote.models.locationdetails.LocationDetailsResponse
 import com.anestevez.gigirestaurants.core.remote.models.nearbysearch.Data
 import com.anestevez.gigirestaurants.data.models.Restaurant
@@ -12,11 +13,8 @@ fun LocationDetailsResponse.toDomain(): Restaurant {
         restaurant = Restaurant(
             id = this.location_id.toInt(),
             name = this.name,
-//            description = this.description ?: "-",
-//            email = this.email ?: "-",
             description = "-",
-            email =  "-",
-
+            email = "-",
             phone = this.phone ?: "-",
             rating = this.rating ?: "-",
         )
@@ -25,7 +23,6 @@ fun LocationDetailsResponse.toDomain(): Restaurant {
     }
     return restaurant
 }
-
 
 fun Data.toDomain(): Restaurant =
     Restaurant(
@@ -45,10 +42,34 @@ fun Restaurant.toItemUiState(onBookmark: suspend () -> Unit = {}): ItemUiState {
     var itemUiState = ItemUiState(Restaurant())
     try {
         itemUiState = ItemUiState(
-        restaurant = this
-    ).apply { this.onBookmark = { onBookmark() } }
+            restaurant = this
+        ).apply { this.onBookmark = { onBookmark() } }
     } catch (t: Throwable) {
         Timber.e(t)
     }
     return itemUiState
 }
+
+fun Restaurant.toEntity(): RestaurantEntity =
+    RestaurantEntity(
+        id = this.id!!,
+        name = this.name ?: "-",
+        description = this.description,
+        email = this.email,
+        phone = this.phone,
+        rating = this.rating,
+        thumbUrl = this.thumbUrl,
+        bookmarked = this.bookmarked,
+    )
+
+fun RestaurantEntity.toDomain(): Restaurant =
+    Restaurant(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        email = this.email,
+        phone = this.phone,
+        rating = this.rating,
+        thumbUrl = this.thumbUrl,
+        bookmarked = this.bookmarked,
+    )

@@ -1,6 +1,5 @@
 package com.anestevez.gigirestaurants.ui.composables
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -13,32 +12,24 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Card
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -56,8 +47,6 @@ import com.anestevez.gigirestaurants.ui.theme.ShimmerHighlightColor
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.fade
 import com.google.accompanist.placeholder.material.placeholder
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -105,28 +94,29 @@ fun RestaurantListItem(
     onClick: () -> Unit = {},
 ) {
 
-    val coroutineScope = rememberCoroutineScope()
-
     Card(
         modifier = modifier
             .wrapContentSize()
             .clickable { onClick() },
         shape = RoundedCornerShape(10.dp),
     ) {
-        Column(modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary)) {
+        Column(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.primary)
+        ) {
             Box {
-                Thumb(itemUiState.restaurant.thumbUrl)
-                Box(modifier = Modifier.align(Alignment.BottomEnd).padding(5.dp)) {
-                    BookmarkButton(
-                        coroutineScope,
-                        itemUiState,
-                    )
+                ThumbDetail(itemUiState.restaurant.thumbUrl)
+                Box(modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(5.dp)) {
+                    BookmarkButton(itemUiState)
                 }
             }
-            Column(modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth()
+            ) {
                 Row {
                     Text(
                         textAlign = TextAlign.Center,
