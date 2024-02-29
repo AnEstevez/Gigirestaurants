@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Gigirestaurants</string>
+    <string name="tripadvisor_base_url">https://api.content.tripadvisor.com/api/v1/location/</string>
+    <string name="rating">Rating</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="clear_history">Clear history</string>
+    <string name="find_restaurants_by_name">Find restaurants by name</string>
+    <string name="description">Description</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="permission_required">Location permission required to find nearby restaurants</string>
+    <string name="please_grant_permission">Please grant the permission</string>
+
 </resources>
