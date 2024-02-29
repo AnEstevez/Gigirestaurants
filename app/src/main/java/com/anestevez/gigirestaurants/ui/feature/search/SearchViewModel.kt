@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.anestevez.gigirestaurants.core.toItemUiState
 import com.anestevez.gigirestaurants.domain.SearchNearbyRestaurantsUseCase
 import com.anestevez.gigirestaurants.domain.SearchRestaurantsByNameUseCase
+import com.anestevez.gigirestaurants.domain.ToggleBookmarkUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchRestaurantsByNameUseCase: SearchRestaurantsByNameUseCase,
     private val searchNearbyRestaurantsUseCase: SearchNearbyRestaurantsUseCase,
+    private val toggleBookmarkUseCase: ToggleBookmarkUseCase,
 ) : ViewModel() {
 
     var uiState = MutableStateFlow(SearchUiState())
@@ -27,7 +29,12 @@ class SearchViewModel @Inject constructor(
                 uiState.update {
                     uiState.value.copy(
                         loading = false,
-                        data = restaurants.map { it.toItemUiState() }
+                        data = restaurants.map {
+                            it.toItemUiState().apply {
+                                onBookmark =
+                                    { toggleBookmarkUseCase(restaurant = this.restaurant) }
+                            }
+                        }
                     )
                 }
             }) { throwable ->

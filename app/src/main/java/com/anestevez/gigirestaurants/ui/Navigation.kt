@@ -26,7 +26,9 @@ fun Navigation(
         }
         composable(Route.Bookmarks.route) {
             BackHandler(onBack = { gigiAppState.clearAndNavigate(Route.Search.route) })
-            BookmarksScreen(gigiAppState = gigiAppState)
+            BookmarksScreen(gigiAppState = gigiAppState) { id ->
+                gigiAppState.navigate(Route.BookmarksDetail.route.plus("/$id"))
+            }
         }
         composable(
             route = Route.SearchDetail.route + "/{${Route.SearchDetail.arguments[0].name}}",
@@ -34,7 +36,10 @@ fun Navigation(
         ) {
             SearchDetailScreen(gigiAppState = gigiAppState)
         }
-        composable(Route.BookmarksDetail.route) {
+        composable(
+            route = Route.BookmarksDetail.route + "/{${Route.SearchDetail.arguments[0].name}}",
+            arguments = Route.BookmarksDetail.arguments
+        ) {
             BookmarksDetailScreen(gigiAppState = gigiAppState)
         }
 

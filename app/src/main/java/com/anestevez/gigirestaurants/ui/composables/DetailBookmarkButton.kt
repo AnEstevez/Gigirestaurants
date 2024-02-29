@@ -13,20 +13,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.anestevez.gigirestaurants.ui.common.ItemUiState
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun BookmarkButton(
+fun DetailBookmarkButton(
+    coroutineScope: CoroutineScope,
     state: ItemUiState,
+    onBookmark: () -> Unit,
 ) {
-
-    val coroutineScope = rememberCoroutineScope()
-
     FilledIconButton(
         modifier = Modifier
             .padding(horizontal = 5.dp)
@@ -36,11 +34,7 @@ fun BookmarkButton(
                 spotColor = MaterialTheme.colorScheme.onSurface
             )
             .size(35.dp),
-        onClick = {
-            coroutineScope.launch {
-                state.onBookmark()
-            }
-        },
+        onClick = { onBookmark() },
         colors = IconButtonDefaults.filledIconButtonColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),

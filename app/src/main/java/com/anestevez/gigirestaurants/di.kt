@@ -1,10 +1,14 @@
 package com.anestevez.gigirestaurants
 
 import android.app.Application
+import androidx.room.Room
 import com.anestevez.gigirestaurants.core.PlayServicesLocationDataSource
+import com.anestevez.gigirestaurants.core.local.GigiDatabase
+import com.anestevez.gigirestaurants.core.local.RoomDataSource
 import com.anestevez.gigirestaurants.core.location.LocationDataSource
 import com.anestevez.gigirestaurants.core.remote.GigiRemoteDataSource
 import com.anestevez.gigirestaurants.core.remote.RemoteService
+import com.anestevez.gigirestaurants.data.datasources.LocalDataSource
 import com.anestevez.gigirestaurants.data.datasources.RemoteDataSource
 import dagger.Binds
 import dagger.Module
@@ -52,7 +56,18 @@ class AppModule {
             .build()
             .create()
 
+    @Provides
+    @Singleton
+    fun gigiDbProvider(app: Application) =
+        Room.databaseBuilder(
+            app,
+            GigiDatabase::class.java,
+            "gigi-db"
+        ).build()
 
+    @Provides
+    @Singleton
+    fun characterDaoProvider(db: GigiDatabase) = db.restaurantDao()
 }
 
 @Module
@@ -60,6 +75,9 @@ class AppModule {
 abstract class AppDataModule {
     @Binds
     internal abstract fun bindRemoteDataSource(remoteDataSource: GigiRemoteDataSource): RemoteDataSource
+
+    @Binds
+    internal abstract fun bindLocalDataSource(localDataSource: RoomDataSource): LocalDataSource
 
     @Binds
     internal abstract fun bindLocationDataSource(locationDataSource: PlayServicesLocationDataSource): LocationDataSource
