@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 fun rememberGigiAppState(
     navController: NavHostController = rememberNavController(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-
     navigationBarsInsetsDp: MutableState<Dp> = remember { mutableStateOf(0.dp) },
     scaffoldPadding: MutableState<PaddingValues> = remember { mutableStateOf(PaddingValues()) },
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
